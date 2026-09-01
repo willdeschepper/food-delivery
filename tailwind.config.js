@@ -4,7 +4,17 @@ module.exports = {
   content: ["./app/**/*", "./_layout.tsx", "./components/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        poppins: ["poppins-regular"],
+        "poppins-medium": ["poppins-medium"],
+        "poppins-semibold": ["poppins-semibold"],
+        "poppins-bold": ["poppins-bold"],
+      },
+      colors: {
+        primary: "#FD6602",
+      },
+    },
   },
   plugins: [],
 };
