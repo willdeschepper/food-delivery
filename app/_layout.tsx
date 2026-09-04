@@ -1,37 +1,31 @@
-import Navbar from "@/components/navbar";
-import {
-  Poppins_400Regular,
-  Poppins_500Medium,
-  Poppins_600SemiBold,
-  Poppins_700Bold,
-} from "@expo-google-fonts/poppins";
-import { useFonts } from "expo-font";
-import { DarkTheme, DefaultTheme, ThemeProvider } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-import { useColorScheme } from "react-native";
-import "../global.css";
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-SplashScreen.preventAutoHideAsync();
+import { AppProvider } from '@/src/providers/app-provider';
+import { colors } from '@/src/theme/colors';
 
 export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
-    "poppins-regular": Poppins_400Regular,
-    "poppins-medium": Poppins_500Medium,
-    "poppins-semibold": Poppins_600SemiBold,
-    "poppins-bold": Poppins_700Bold,
-  });
-
-  useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  const colorScheme = useColorScheme();
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Navbar />
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <AppProvider>
+        <StatusBar style="dark" />
+        <Stack
+          screenOptions={{
+            contentStyle: { backgroundColor: colors.background },
+            headerShadowVisible: false,
+            headerStyle: { backgroundColor: colors.background },
+            headerTintColor: colors.text,
+            headerTitleStyle: { fontWeight: '600' },
+            headerBackButtonDisplayMode: 'minimal',
+          }}
+        >
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="cart" options={{ title: 'Seu carrinho' }} />
+          <Stack.Screen name="checkout" options={{ title: 'Finalizar pedido' }} />
+          <Stack.Screen name="order/[orderId]" options={{ title: 'Acompanhar pedido' }} />
+        </Stack>
+      </AppProvider>
+    </SafeAreaProvider>
   );
 }
